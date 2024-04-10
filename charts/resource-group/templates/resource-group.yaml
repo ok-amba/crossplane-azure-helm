@@ -1,0 +1,37 @@
+# check  Required parameters.
+{{- $_ := required "global.resourceGroupName is required" $.Values.global.resourceGroupName }}
+{{- $_ := required "global.tags.application is required" $.Values.global.tags.application }}
+{{- $_ := required "global.tags.costCenter is required" $.Values.global.tags.costCenter }}
+{{- $_ := required "global.tags.operatedBy is required" $.Values.global.tags.operatedBy }}
+{{- $_ := required "global.tags.technicalOwner is required" $.Values.global.tags.technicalOwner }}
+
+
+############################################################
+#                     Resource Group                       #
+############################################################
+
+apiVersion: family-azure.ok.dk/v1alpha1
+kind: ResourceGroup
+metadata:
+  name: {{ $.Values.global.resourceGroupName  | quote }}
+  {{- if $.Values.argoSyncWave }}
+  annotations:
+    argocd.argoproj.io/sync-wave: {{ $.Values.argoSyncWave | quote }}
+  {{- end }}
+  labels:
+    {{- include "resource-group.labels" $ | nindent 4 }}
+    {{- range $k, $v := $.Values.labels }}
+    {{- printf "%s: %s" $k ($v | quote) | nindent 4 }}
+    {{- end }}
+spec: 
+  name: {{ $.Values.global.resourceGroupName | quote }}
+  location: {{ $.Values.location | quote }}
+  tags:
+    {{- include "resource-group.tags" $ | nindent 4 }}
+    Application: {{ $.Values.global.tags.application | quote }}
+    CostCenter: {{ $.Values.global.tags.costCenter | quote }}
+    OperatedBy: {{ $.Values.global.tags.operatedBy | quote }}
+    TechnicalOwner: {{ $.Values.global.tags.technicalOwner | quote }}
+    {{- range $k, $v := $.Values.tags }}
+    {{- printf "%s: %s" $k ($v | quote) | nindent 4 }}
+    {{- end }}

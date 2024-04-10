@@ -1,0 +1,49 @@
+##################################################
+#                  Global                        #
+##################################################
+
+global:
+  # REQUIRED.
+  # Name of the Azure resource group. Since most Azure resources needs to deploy to a specific azure resource group, the resource group name is a global parameter. 
+  resourceGroupName: "example-name"
+
+  # Add kubernetes labels from a parent chart to all manifests.
+  labels: {}
+
+  # Adds tags to the Azure Resource.
+  tags:
+    # REQUIRED.
+    # The context of which the requested resource is intended to be used for. e. g. "d365fo-mdp", "ado-vmss", "dims-parall".
+    application: ""
+
+    # REQUIRED.
+    # The department of which the requested resource is made for. e. g. "IT", "BI".
+    costCenter: ""
+
+    # REQUIRED.
+    # The team utilizing the infrastructure. e. g. "IT Infrastructure", "Columbus". 
+    operatedBy: ""
+
+    # REQUIRED. 
+    # The team responsible for the infrastructure. e. g. "IT Infrastructure".
+    technicalOwner: ""
+
+##################################################
+#              Resource Group                    #
+##################################################
+
+# Below property sets a ArgoCD Sync Wave annotation on all resources. Set it to "false" to disable it.
+# https://argo-cd.readthedocs.io/en/stable/user-guide/sync-waves/
+argoSyncWave: -5
+
+# Labels on the kubernetes resource.
+# Google Cloud labels only support hyphens (-), underscores (_), lowercase characters and numbers.
+labels: {}
+  # example: "additional-label 
+
+# Additional azure resource tags
+tags: {}
+  # example: "additional-tag"
+
+# The Azure region the resource will be deployed in. Default region is West Europe.
+location: "West Europe"
