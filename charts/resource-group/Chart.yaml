@@ -1,0 +1,4 @@
+apiVersion: v2
+name: resource-group
+description: A Helm chart for a creating a resource group.
+version: 0.0.1

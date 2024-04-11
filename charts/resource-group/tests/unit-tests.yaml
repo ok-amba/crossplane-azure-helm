@@ -1,0 +1,107 @@
+suite: test resource group
+templates:
+  - resource-group.yaml
+tests:
+  - it: should work with minimum values
+    set:
+      global:
+        resourceGroupName: "example-name"
+        tags:
+          application: "unit-testing"
+          costCenter: "IT"
+          operatedBy: "developer team"
+          technicalOwner: "infrastructure team"
+    asserts:
+      # test default name.
+      - equal:
+          path: metadata.name
+          value: "example-name"
+      - equal:
+          path: spec.name
+          value: "example-name"
+
+      # test default annotations.
+      - equal:
+          path: metadata.annotations["argocd.argoproj.io/sync-wave"]
+          value: "-5"     
+
+      # test default labels.
+      - equal:
+          path: metadata.labels["chart-name"]
+          value: "resource-group"     
+
+      - equal:
+          path: metadata.labels["chart-version"]
+          value: "0-0-1"   
+
+      # test default location.
+      - equal:
+          path: spec.location
+          value: "West Europe"
+      
+      # test default tags.
+      # should transform from camel case to pascal case.
+      - equal:
+          path: spec.tags.Application
+          value: "unit-testing"
+
+      # should transform from camel case to pascal case.
+      - equal:
+          path: spec.tags.CostCenter
+          value: "IT"
+
+      # should transform from camel case to pascal case.
+      - equal:
+          path: spec.tags.OperatedBy
+          value: "developer team"
+
+      # should transform from camel case to pascal case.
+      - equal:
+          path: spec.tags.TechnicalOwner
+          value: "infrastructure team"
+
+      - equal:
+          path: spec.tags.ChartName
+          value: "resource-group"
+
+      - equal:
+          path: spec.tags.ChartVersion
+          value: "0.0.1"
+
+
+  - it: should work configured values
+    set:
+      global:
+        resourceGroupName: "example-name"
+        tags:
+          application: "unit-testing"
+          costCenter: "IT"
+          operatedBy: "developer team"
+          technicalOwner: "infrastructure team"
+      argoSyncWave: -4
+      labels:
+        example: "test-label"
+      tags:
+        example: "test-tag"
+      location: "North Europe"
+              
+    asserts:      
+      # Test Argocd Sync wave.
+      - equal:
+          path: metadata.annotations["argocd.argoproj.io/sync-wave"]
+          value: "-4"     
+
+      # Test additional labels.
+      - equal:
+          path: metadata.labels["example"]
+          value: "test-label"
+
+      # Test additional tags.
+      - equal:
+          path: spec.tags["example"]
+          value: "test-tag"
+
+      # test location change.
+      - equal:
+          path: spec.location
+          value: "North Europe"
