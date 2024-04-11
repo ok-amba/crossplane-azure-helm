@@ -1,14 +1,8 @@
-# check  Required parameters.
 {{- $_ := required "global.resourceGroupName is required" $.Values.global.resourceGroupName }}
 {{- $_ := required "global.tags.application is required" $.Values.global.tags.application }}
 {{- $_ := required "global.tags.costCenter is required" $.Values.global.tags.costCenter }}
 {{- $_ := required "global.tags.operatedBy is required" $.Values.global.tags.operatedBy }}
 {{- $_ := required "global.tags.technicalOwner is required" $.Values.global.tags.technicalOwner }}
-
-
-############################################################
-#                     Resource Group                       #
-############################################################
 
 apiVersion: family-azure.ok.dk/v1alpha1
 kind: ResourceGroup

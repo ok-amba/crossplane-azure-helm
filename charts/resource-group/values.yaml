@@ -7,8 +7,9 @@ global:
   # Name of the Azure resource group. Since most Azure resources needs to deploy to a specific azure resource group, the resource group name is a global parameter. 
   resourceGroupName: "example-name"
 
-  # Add kubernetes labels from a parent chart to all manifests.
+  # Adds kubernetes labels from a parent chart to all manifests.
   labels: {}
+    # example: "additional-label"
 
   # Adds tags to the Azure Resource.
   tags:
@@ -21,11 +22,11 @@ global:
     costCenter: ""
 
     # REQUIRED.
-    # The team utilizing the infrastructure. e. g. "IT Infrastructure", "Columbus". 
+    # The team utilizing the infrastructure resources. e. g. "IT Infrastructure", "Columbus". 
     operatedBy: ""
 
     # REQUIRED. 
-    # The team responsible for the infrastructure. e. g. "IT Infrastructure".
+    # The team responsible for the infrastructure resources. e. g. "IT Infrastructure".
     technicalOwner: ""
 
 ##################################################
@@ -37,7 +38,6 @@ global:
 argoSyncWave: -5
 
 # Labels on the kubernetes resource.
-# Google Cloud labels only support hyphens (-), underscores (_), lowercase characters and numbers.
 labels: {}
   # example: "additional-label 
 
@@ -45,5 +45,5 @@ labels: {}
 tags: {}
   # example: "additional-tag"
 
-# The Azure region the resource will be deployed in. Default region is West Europe.
+# The Azure region in which the resource will be deployed in. Default region is West Europe.
 location: "West Europe"
